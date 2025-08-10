@@ -31,7 +31,6 @@
 | ship_from_address_id| integer    | null: false |
 | shipping_time_id    | integer    | null: false |
 | price               | integer    | null: false |
-| sales_status        | integer    | null: false, default: 0 |
 | user                | references | null: false, foreign_key: true |
 
 ### Association
