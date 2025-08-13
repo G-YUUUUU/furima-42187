@@ -32,7 +32,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include "Category can't be blank"
       end
       it 'categoryが初期値では登録できない' do
-        @item.category_id = '---'
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include "Category can't be blank"
       end
@@ -42,7 +42,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include "Condition can't be blank"
       end
       it 'conditionが初期値では登録できない' do
-        @item.condition_id = '---'
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include "Condition can't be blank"
       end
@@ -52,7 +52,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include "Bearer can't be blank"
       end
       it 'bearerが初期値では登録できない' do
-        @item.bearer_id = '---'
+        @item.bearer_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include "Bearer can't be blank"
       end
@@ -62,7 +62,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include "Ship from address can't be blank"
       end
       it 'ship_from_addressが初期値では登録できない' do
-        @item.ship_from_address_id = '---'
+        @item.ship_from_address_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include "Ship from address can't be blank"
       end
@@ -72,7 +72,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include "Shipping time can't be blank"
       end
       it 'shipping_timeが初期値では登録できない' do
-        @item.shipping_time_id = '---'
+        @item.shipping_time_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include "Shipping time can't be blank"
       end
@@ -95,6 +95,11 @@ RSpec.describe Item, type: :model do
         @item.price = 'あいうえお'
         @item.valid?
         expect(@item.errors.full_messages).to include 'Price is not a number'
+      end
+      it 'ユーザーが紐付いていなければ投稿できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
