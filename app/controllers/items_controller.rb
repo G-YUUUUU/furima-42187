@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   before_action :set_item, except: [:index, :new, :create, :destroy]
 
   def index
-    @items = Item.all.order(created_at: :desc)
+    @items = Item.includes(:purchased_record).order(created_at: :desc)
   end
 
   def new
@@ -23,9 +23,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    return if @item.user == current_user
-
-    redirect_to action: :index
+    if @item.purchased_record.present?
+      redirect_to action: :index
+    else
+      redirect_to action: :index unless @item.user == current_user
+    end
   end
 
   def update
