@@ -24,8 +24,18 @@ RSpec.describe PurchasedRecordAddress, type: :model do
         @purchased_record_address.valid?
         expect(@purchased_record_address.errors.full_messages).to include "Postal code can't be blank"
       end
-      it 'postal_codeが正しい形式でないと保存できない' do
+      it 'postal_codeにハイフンが含まれていないと保存できない' do
         @purchased_record_address.postal_code = '1234567'
+        @purchased_record_address.valid?
+        expect(@purchased_record_address.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
+      end
+      it 'postal_codeが不正な桁数だと保存できない' do
+        @purchased_record_address.postal_code = '1234-5678'
+        @purchased_record_address.valid?
+        expect(@purchased_record_address.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
+      end
+      it 'postal_codeに数字以外が含まれていると保存できない' do
+        @purchased_record_address.postal_code = '123-456あ'
         @purchased_record_address.valid?
         expect(@purchased_record_address.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
       end
@@ -54,8 +64,18 @@ RSpec.describe PurchasedRecordAddress, type: :model do
         @purchased_record_address.valid?
         expect(@purchased_record_address.errors.full_messages).to include 'Phone number はハイフンなしで入力してください'
       end
+      it 'phone_numberが9桁以下だと保存できない' do
+        @purchased_record_address.phone_number = '090123456'
+        @purchased_record_address.valid?
+        expect(@purchased_record_address.errors.full_messages).to include 'Phone number はハイフンなしで入力してください'
+      end
       it 'phone_numberにハイフンが含まれていると保存できない' do
         @purchased_record_address.phone_number = '090-1234-5678'
+        @purchased_record_address.valid?
+        expect(@purchased_record_address.errors.full_messages).to include 'Phone number はハイフンなしで入力してください'
+      end
+      it 'phone_numberに数字以外が含まれていると保存できない' do
+        @purchased_record_address.phone_number = '0901234567あ'
         @purchased_record_address.valid?
         expect(@purchased_record_address.errors.full_messages).to include 'Phone number はハイフンなしで入力してください'
       end
